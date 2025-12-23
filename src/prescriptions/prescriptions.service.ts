@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Prescription } from './prescriptions.entity';
-import { CreatePrescriptionDto } from '../users/create-prescription.dto';
-import { UpdatePrescriptionDto } from '../users/update-prescription.dto';
+import { CreatePrescriptionDto } from './dto/create-prescription.dto';
+import { UpdatePrescriptionDto } from './dto/update-prescription.dto';
 import { NotificationsService } from '../notifications/notifications.service';
+import { InjectQueue } from '@nestjs/bull';
+import type { Queue } from 'bull';
 
 @Injectable()
 export class PrescriptionsService {
@@ -12,6 +14,8 @@ export class PrescriptionsService {
     @InjectRepository(Prescription)
     private prescriptionsRepository: Repository<Prescription>,
     private notificationsService: NotificationsService,
+    @InjectQueue('notifications')
+    private readonly notificationsQueue: Queue,
   ) {}
 
   async create(
@@ -24,9 +28,17 @@ export class PrescriptionsService {
     });
     const savedPrescription =
       await this.prescriptionsRepository.save(prescription);
-    await this.notificationsService.sendNotification(
-      `patient-${savedPrescription.patient.id}`,
-      `You have a new prescription from Dr. ${savedPrescription.doctor.lastName}`,
+    // Enqueue notification job instead of sending synchronously
+    await this.notificationsQueue.add(
+      'send',
+      {
+        channel: `patient-${savedPrescription.patient.id}`,
+        message: `You have a new prescription from Dr. ${savedPrescription.doctor.lastName}`,
+      },
+      {
+        attempts: 3,
+        backoff: 5000,
+      },
     );
     return savedPrescription;
   }

@@ -25,10 +25,10 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   updatedAt: Date;
 
   @OneToMany(() => Prescription, (prescription) => prescription.doctor)

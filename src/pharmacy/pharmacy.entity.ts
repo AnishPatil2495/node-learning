@@ -17,6 +17,6 @@ export class Pharmacy {
   @Column()
   notificationEnabled: boolean;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   lastNotified: Date;
 }
