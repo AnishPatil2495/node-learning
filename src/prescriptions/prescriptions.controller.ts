@@ -21,8 +21,8 @@ import { PermissionsGuard } from '../common/guards/permissions.guard';
 import { Permissions } from '../common/decorators/permissions.decorator';
 import { Permission } from '../common/enums/permission.enum';
 import { Role } from '../common/enums/role.enum';
-import { CacheInterceptor } from '@nestjs/cache-manager';
 import { ProSubscriptionGuard } from '../common/guards/pro-subscription.guard';
+import { CustomLruCacheInterceptor } from '../common/interceptors/custom-lru-cache.interceptor';
 
 /**
  * Prescriptions Controller
@@ -56,7 +56,7 @@ export class PrescriptionsController {
   @Get()
   @UseGuards(PermissionsGuard)
   @Permissions(Permission.READ_PRESCRIPTIONS)
-  @UseInterceptors(CacheInterceptor)
+  @UseInterceptors(CustomLruCacheInterceptor)
   async findAll(): Promise<Prescription[]> {
     return this.prescriptionsService.findAll();
   }
@@ -68,7 +68,7 @@ export class PrescriptionsController {
   @Get(':id')
   @UseGuards(PermissionsGuard)
   @Permissions(Permission.READ_PRESCRIPTIONS)
-  @UseInterceptors(CacheInterceptor)
+  @UseInterceptors(CustomLruCacheInterceptor)
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Prescription> {
     return this.prescriptionsService.findOne(id);
   }
@@ -108,7 +108,7 @@ export class PrescriptionsController {
   @UseGuards(RolesGuard, PermissionsGuard)
   @Roles(Role.Patient, Role.Doctor, Role.ADMIN)
   @Permissions(Permission.READ_PRESCRIPTIONS)
-  @UseInterceptors(CacheInterceptor)
+  @UseInterceptors(CustomLruCacheInterceptor)
   async findPrescriptionHistory(
     @Param('patientId', ParseIntPipe) patientId: number,
   ): Promise<Prescription[]> {
