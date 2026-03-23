@@ -65,5 +65,17 @@ export class UsersService {
     return users;
   }
 
+  async update(id: number, updateData: Partial<User>): Promise<User | undefined> {
+    await this.usersRepository.update(id, updateData);
+    const updatedUser = await this.usersRepository.findOne({ where: { id } });
+    if (updatedUser) {
+      // Invalidate caches
+      await this.cacheManager.del('users:all');
+      await this.cacheManager.del(`user:id:${id}`);
+      await this.cacheManager.del(`user:email:${updatedUser.email}`);
+    }
+    return updatedUser || undefined;
+  }
+
   // ... other methods
 }

@@ -11,6 +11,7 @@ Complete API documentation with curl examples and Postman-ready payloads.
 ## 🔐 Authentication Endpoints
 
 ### 1. Login
+
 Authenticate a user and receive access + refresh tokens.
 
 **Endpoint**: `POST /auth/login`  
@@ -18,6 +19,7 @@ Authenticate a user and receive access + refresh tokens.
 **Authorization**: None
 
 **Request Body**:
+
 ```json
 {
   "email": "doctor@example.com",
@@ -26,6 +28,7 @@ Authenticate a user and receive access + refresh tokens.
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
@@ -36,6 +39,7 @@ curl -X POST http://localhost:3000/auth/login \
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -52,10 +56,12 @@ curl -X POST http://localhost:3000/auth/login \
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/auth/login`
 - Headers: `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "email": "doctor@example.com",
@@ -66,6 +72,7 @@ curl -X POST http://localhost:3000/auth/login \
 ---
 
 ### 2. Refresh Token
+
 Refresh access token using refresh token (token rotation).
 
 **Endpoint**: `POST /auth/refresh`  
@@ -73,6 +80,7 @@ Refresh access token using refresh token (token rotation).
 **Authorization**: None
 
 **Request Body**:
+
 ```json
 {
   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -80,6 +88,7 @@ Refresh access token using refresh token (token rotation).
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/auth/refresh \
   -H "Content-Type: application/json" \
@@ -89,6 +98,7 @@ curl -X POST http://localhost:3000/auth/refresh \
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -99,10 +109,12 @@ curl -X POST http://localhost:3000/auth/refresh \
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/auth/refresh`
 - Headers: `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "refreshToken": "YOUR_REFRESH_TOKEN_HERE"
@@ -112,6 +124,7 @@ curl -X POST http://localhost:3000/auth/refresh \
 ---
 
 ### 3. Logout
+
 Logout user by blacklisting tokens.
 
 **Endpoint**: `POST /auth/logout`  
@@ -119,11 +132,13 @@ Logout user by blacklisting tokens.
 **Authorization**: Any authenticated user
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **Request Body** (optional):
+
 ```json
 {
   "refreshToken": "YOUR_REFRESH_TOKEN_HERE"
@@ -131,6 +146,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/auth/logout \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
@@ -141,6 +157,7 @@ curl -X POST http://localhost:3000/auth/logout \
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "message": "Successfully logged out"
@@ -148,12 +165,14 @@ curl -X POST http://localhost:3000/auth/logout \
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/auth/logout`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
   - `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "refreshToken": "YOUR_REFRESH_TOKEN_HERE"
@@ -163,6 +182,7 @@ curl -X POST http://localhost:3000/auth/logout \
 ---
 
 ### 4. Get Current User
+
 Get information about the currently authenticated user.
 
 **Endpoint**: `GET /auth/me`  
@@ -170,17 +190,20 @@ Get information about the currently authenticated user.
 **Authorization**: Any authenticated user
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/auth/me \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "id": 1,
@@ -191,6 +214,7 @@ curl -X GET http://localhost:3000/auth/me \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/auth/me`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -198,6 +222,7 @@ curl -X GET http://localhost:3000/auth/me \
 ---
 
 ### 5. Machine-to-Machine Token
+
 Generate access token for service-to-service communication.
 
 **Endpoint**: `POST /auth/m2m/token`  
@@ -205,6 +230,7 @@ Generate access token for service-to-service communication.
 **Authorization**: None
 
 **Request Body**:
+
 ```json
 {
   "serviceId": "example-service",
@@ -213,6 +239,7 @@ Generate access token for service-to-service communication.
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/auth/m2m/token \
   -H "Content-Type: application/json" \
@@ -223,6 +250,7 @@ curl -X POST http://localhost:3000/auth/m2m/token \
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -232,10 +260,12 @@ curl -X POST http://localhost:3000/auth/m2m/token \
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/auth/m2m/token`
 - Headers: `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "serviceId": "example-service",
@@ -245,9 +275,61 @@ curl -X POST http://localhost:3000/auth/m2m/token \
 
 ---
 
+### Signup
+
+Register a new user as a Patient (default role).
+
+**Endpoint**: `POST /auth/signup`  
+**Authentication**: Not required  
+**Authorization**: None
+
+**Request Body**:
+
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "patient@example.com",
+  "password": "password123"
+}
+```
+
+**cURL**:
+
+```bash
+curl -X POST http://localhost:3000/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "patient@example.com",
+    "password": "password123"
+  }'
+```
+
+**Response** (201 Created):
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expiresIn": 900,
+  "tokenType": "Bearer",
+  "user": {
+    "id": 2,
+    "email": "patient@example.com",
+    "role": "Patient",
+    "permissions": ["read:prescriptions", "read:history", ...]
+  }
+}
+```
+
+---
+
 ## 👥 Users Endpoints
 
 ### 6. Create User
+
 Create a new user.
 
 **Endpoint**: `POST /users`  
@@ -255,11 +337,13 @@ Create a new user.
 **Authorization**: Doctor or Admin role + WRITE_USERS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **Request Body**:
+
 ```json
 {
   "email": "patient@example.com",
@@ -272,6 +356,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/users \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
@@ -287,6 +372,7 @@ curl -X POST http://localhost:3000/users \
 ```
 
 **Response** (201 Created):
+
 ```json
 {
   "id": 2,
@@ -300,12 +386,14 @@ curl -X POST http://localhost:3000/users \
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/users`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
   - `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "email": "patient@example.com",
@@ -320,6 +408,7 @@ curl -X POST http://localhost:3000/users \
 ---
 
 ### 7. Get All Users
+
 Get list of all users.
 
 **Endpoint**: `GET /users`  
@@ -327,17 +416,20 @@ Get list of all users.
 **Authorization**: READ_USERS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/users \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 [
   {
@@ -360,6 +452,7 @@ curl -X GET http://localhost:3000/users \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/users`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -367,6 +460,7 @@ curl -X GET http://localhost:3000/users \
 ---
 
 ### 8. Get User by ID
+
 Get a specific user by ID.
 
 **Endpoint**: `GET /users/:id`  
@@ -374,17 +468,20 @@ Get a specific user by ID.
 **Authorization**: READ_USERS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/users/1 \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "id": 1,
@@ -398,6 +495,7 @@ curl -X GET http://localhost:3000/users/1 \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/users/1`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -407,6 +505,7 @@ curl -X GET http://localhost:3000/users/1 \
 ## 💊 Prescriptions Endpoints
 
 ### 9. Create Prescription
+
 Create a new prescription.
 
 **Endpoint**: `POST /prescriptions`  
@@ -414,11 +513,13 @@ Create a new prescription.
 **Authorization**: Doctor or Admin role + WRITE_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **Request Body**:
+
 ```json
 {
   "doctorId": 1,
@@ -430,6 +531,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/prescriptions \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
@@ -444,6 +546,7 @@ curl -X POST http://localhost:3000/prescriptions \
 ```
 
 **Response** (201 Created):
+
 ```json
 {
   "id": 1,
@@ -464,12 +567,14 @@ curl -X POST http://localhost:3000/prescriptions \
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/prescriptions`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
   - `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "doctorId": 1,
@@ -483,6 +588,7 @@ curl -X POST http://localhost:3000/prescriptions \
 ---
 
 ### 10. Get All Prescriptions
+
 Get list of all prescriptions.
 
 **Endpoint**: `GET /prescriptions`  
@@ -490,17 +596,20 @@ Get list of all prescriptions.
 **Authorization**: READ_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/prescriptions \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 [
   {
@@ -514,6 +623,7 @@ curl -X GET http://localhost:3000/prescriptions \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/prescriptions`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -521,6 +631,7 @@ curl -X GET http://localhost:3000/prescriptions \
 ---
 
 ### 11. Get Prescription by ID
+
 Get a specific prescription by ID.
 
 **Endpoint**: `GET /prescriptions/:id`  
@@ -528,17 +639,20 @@ Get a specific prescription by ID.
 **Authorization**: READ_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/prescriptions/1 \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "id": 1,
@@ -550,6 +664,7 @@ curl -X GET http://localhost:3000/prescriptions/1 \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/prescriptions/1`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -557,6 +672,7 @@ curl -X GET http://localhost:3000/prescriptions/1 \
 ---
 
 ### 12. Update Prescription
+
 Update an existing prescription.
 
 **Endpoint**: `PATCH /prescriptions/:id`  
@@ -564,11 +680,13 @@ Update an existing prescription.
 **Authorization**: Doctor or Admin role + WRITE_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **Request Body**:
+
 ```json
 {
   "dosage": "200mg",
@@ -577,6 +695,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X PATCH http://localhost:3000/prescriptions/1 \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
@@ -588,6 +707,7 @@ curl -X PATCH http://localhost:3000/prescriptions/1 \
 ```
 
 **Response** (200 OK):
+
 ```json
 {
   "id": 1,
@@ -599,12 +719,14 @@ curl -X PATCH http://localhost:3000/prescriptions/1 \
 ```
 
 **Postman**:
+
 - Method: `PATCH`
 - URL: `http://localhost:3000/prescriptions/1`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
   - `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "dosage": "200mg",
@@ -615,6 +737,7 @@ curl -X PATCH http://localhost:3000/prescriptions/1 \
 ---
 
 ### 13. Delete Prescription
+
 Delete a prescription.
 
 **Endpoint**: `DELETE /prescriptions/:id`  
@@ -622,22 +745,26 @@ Delete a prescription.
 **Authorization**: Doctor or Admin role + DELETE_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X DELETE http://localhost:3000/prescriptions/1 \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```
 (No content)
 ```
 
 **Postman**:
+
 - Method: `DELETE`
 - URL: `http://localhost:3000/prescriptions/1`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -645,6 +772,7 @@ curl -X DELETE http://localhost:3000/prescriptions/1 \
 ---
 
 ### 14. Get Prescription History
+
 Get prescription history for a patient.
 
 **Endpoint**: `GET /prescriptions/history/:patientId`  
@@ -652,17 +780,20 @@ Get prescription history for a patient.
 **Authorization**: Patient, Doctor, or Admin role + READ_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/prescriptions/history/2 \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 [
   {
@@ -676,6 +807,7 @@ curl -X GET http://localhost:3000/prescriptions/history/2 \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/prescriptions/history/2`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -685,6 +817,7 @@ curl -X GET http://localhost:3000/prescriptions/history/2 \
 ## 🏥 Pharmacy Endpoints
 
 ### 15. Notify Pharmacy
+
 Notify pharmacy about a prescription.
 
 **Endpoint**: `POST /pharmacy/notify`  
@@ -692,11 +825,13 @@ Notify pharmacy about a prescription.
 **Authorization**: Pharmacy or Admin role + WRITE_NOTIFICATIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **Request Body**:
+
 ```json
 {
   "prescription": {
@@ -713,6 +848,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/pharmacy/notify \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
@@ -732,17 +868,20 @@ curl -X POST http://localhost:3000/pharmacy/notify \
 ```
 
 **Response** (200 OK):
+
 ```
 (No content)
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/pharmacy/notify`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
   - `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "prescription": {
@@ -761,6 +900,7 @@ curl -X POST http://localhost:3000/pharmacy/notify \
 ---
 
 ### 16. Track Refill
+
 Track prescription refill.
 
 **Endpoint**: `POST /pharmacy/refill`  
@@ -768,11 +908,13 @@ Track prescription refill.
 **Authorization**: Pharmacy or Admin role + WRITE_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **Request Body**:
+
 ```json
 {
   "prescriptionId": "1",
@@ -782,6 +924,7 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X POST http://localhost:3000/pharmacy/refill \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE" \
@@ -794,17 +937,20 @@ curl -X POST http://localhost:3000/pharmacy/refill \
 ```
 
 **Response** (200 OK):
+
 ```
 (No content)
 ```
 
 **Postman**:
+
 - Method: `POST`
 - URL: `http://localhost:3000/pharmacy/refill`
 - Headers:
   - `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
   - `Content-Type: application/json`
 - Body (raw JSON):
+
 ```json
 {
   "prescriptionId": "1",
@@ -816,6 +962,7 @@ curl -X POST http://localhost:3000/pharmacy/refill \
 ---
 
 ### 17. Get Active Prescriptions
+
 Get active prescriptions for a pharmacy.
 
 **Endpoint**: `GET /pharmacy/:pharmacyId/active-prescriptions`  
@@ -823,17 +970,20 @@ Get active prescriptions for a pharmacy.
 **Authorization**: Pharmacy or Admin role + READ_PRESCRIPTIONS permission
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/pharmacy/1/active-prescriptions \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 [
   {
@@ -847,6 +997,7 @@ curl -X GET http://localhost:3000/pharmacy/1/active-prescriptions \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/pharmacy/1/active-prescriptions`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -856,6 +1007,7 @@ curl -X GET http://localhost:3000/pharmacy/1/active-prescriptions \
 ## 📜 History Endpoints
 
 ### 18. Get Prescription History
+
 Get prescription history for a patient.
 
 **Endpoint**: `GET /history/:patientId`  
@@ -863,17 +1015,20 @@ Get prescription history for a patient.
 **Authorization**: READ_HISTORY permission + Resource ownership (users can only access their own history)
 
 **Request Headers**:
+
 ```
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 ```
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/history/2 \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
 ```
 
 **Response** (200 OK):
+
 ```json
 [
   {
@@ -892,6 +1047,7 @@ curl -X GET http://localhost:3000/history/2 \
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/history/2`
 - Headers: `Authorization: Bearer YOUR_ACCESS_TOKEN_HERE`
@@ -901,6 +1057,7 @@ curl -X GET http://localhost:3000/history/2 \
 ## 🔧 Health Check
 
 ### 19. Health Check
+
 Basic health check endpoint.
 
 **Endpoint**: `GET /`  
@@ -908,16 +1065,19 @@ Basic health check endpoint.
 **Authorization**: None
 
 **cURL**:
+
 ```bash
 curl -X GET http://localhost:3000/
 ```
 
 **Response** (200 OK):
+
 ```
 Hello World!
 ```
 
 **Postman**:
+
 - Method: `GET`
 - URL: `http://localhost:3000/`
 
@@ -928,6 +1088,7 @@ Hello World!
 All endpoints return consistent error responses:
 
 **401 Unauthorized** (Invalid/missing token):
+
 ```json
 {
   "statusCode": 401,
@@ -936,6 +1097,7 @@ All endpoints return consistent error responses:
 ```
 
 **403 Forbidden** (Insufficient permissions):
+
 ```json
 {
   "statusCode": 403,
@@ -944,6 +1106,7 @@ All endpoints return consistent error responses:
 ```
 
 **404 Not Found**:
+
 ```json
 {
   "statusCode": 404,
@@ -952,10 +1115,14 @@ All endpoints return consistent error responses:
 ```
 
 **400 Bad Request** (Validation error):
+
 ```json
 {
   "statusCode": 400,
-  "message": ["email must be an email", "password must be longer than or equal to 6 characters"],
+  "message": [
+    "email must be an email",
+    "password must be longer than or equal to 6 characters"
+  ],
   "error": "Bad Request"
 }
 ```
@@ -965,6 +1132,7 @@ All endpoints return consistent error responses:
 ## 🔑 Roles and Permissions
 
 ### Roles
+
 - `admin` - Full system access
 - `user` - Basic authenticated user
 - `service` - Machine-to-machine service accounts
@@ -973,6 +1141,7 @@ All endpoints return consistent error responses:
 - `Pharmacy` - Pharmacy service
 
 ### Common Permissions
+
 - `read:users`, `write:users`, `delete:users`
 - `read:prescriptions`, `write:prescriptions`, `delete:prescriptions`
 - `read:pharmacy`, `write:pharmacy`
@@ -984,6 +1153,7 @@ All endpoints return consistent error responses:
 ## 📋 Testing Workflow
 
 1. **Login** to get access token:
+
    ```bash
    curl -X POST http://localhost:3000/auth/login \
      -H "Content-Type: application/json" \
@@ -993,6 +1163,7 @@ All endpoints return consistent error responses:
 2. **Copy the accessToken** from the response
 
 3. **Use the token** in subsequent requests:
+
    ```bash
    curl -X GET http://localhost:3000/users \
      -H "Authorization: Bearer YOUR_ACCESS_TOKEN_HERE"
@@ -1016,10 +1187,10 @@ All endpoints return consistent error responses:
 5. Create a pre-request script to automatically set the token after login
 
 **Pre-request Script Example** (for login request):
+
 ```javascript
-pm.test("Set access token", function () {
-    var jsonData = pm.response.json();
-    pm.collectionVariables.set("accessToken", jsonData.accessToken);
+pm.test('Set access token', function () {
+  var jsonData = pm.response.json();
+  pm.collectionVariables.set('accessToken', jsonData.accessToken);
 });
 ```
-

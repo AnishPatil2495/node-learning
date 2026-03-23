@@ -16,6 +16,8 @@ import {
   generateSecureToken,
   getExpirationTimestamp,
 } from './utils/token.util';
+import { SignupDto } from './dto/signup.dto';
+import { Role } from '../common/enums/role.enum';
 
 /**
  * Authentication Service
@@ -158,6 +160,43 @@ export class AuthService {
     // Log successful login
     this.logger.log(`User logged in: ${user.email} (ID: ${user.id})`);
 
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiresIn: tokens.expiresIn,
+      tokenType: 'Bearer',
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        permissions: getPermissionsForRole(user.role as any),
+      },
+    };
+  }
+
+  /**
+   * Register a new user as Patient (default role)
+   */
+  async signup(signupDto: SignupDto) {
+    // Check if user already exists
+    const existing = await this.usersService.findByUsername(signupDto.email);
+    if (existing) {
+      throw new BadRequestException('Email already registered');
+    }
+    // Hash password
+    const hashedPassword = await this.hashPassword(signupDto.password);
+    // Create user with default role 'Patient'
+    const user = await this.usersService.create({
+      email: signupDto.email,
+      password: hashedPassword,
+      firstName: signupDto.firstName,
+      lastName: signupDto.lastName,
+      role: Role.Patient,
+      isActive: true,
+    });
+    // Generate tokens
+    const tokens = await this.generateTokens(user);
+    this.logger.log(`User registered: ${user.email} (ID: ${user.id})`);
     return {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,

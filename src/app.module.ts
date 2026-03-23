@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BullModule } from '@nestjs/bull';
@@ -11,6 +13,7 @@ import { PharmacyModule } from './pharmacy/pharmacy.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { HistoryModule } from './history/history.module';
 import { getRedisConfig } from './cache/redis.config';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -94,6 +97,17 @@ import { getRedisConfig } from './cache/redis.config';
     PharmacyModule,
     NotificationsModule,
     HistoryModule,
+    SubscriptionModule,
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 10,
+    }]),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
